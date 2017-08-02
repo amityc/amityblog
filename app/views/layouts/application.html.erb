@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+
+  <title>Amity's Blog</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+  <% if alert %>
+    <p class="bg-warning alert"><%= alert %></p>
+  <% end %>
+   
+<%if !current_page?(root_url) %>
+<nav class="nav navbar-inverse"></nav>
+
+   <% if user_signed_in? %>
+    Logged in as <strong><%= current_user.email %></strong>.
+    <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+    <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+    <%= link_to "Home", root_path, :class => 'btn btn-default navbar-btn navbar-link'  %>
+    <%= link_to "Posts", posts_path, :class => 'btn btn-default navbar-btn navbar-link'  %>
+  <% else %>
+    <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
+    <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+  <% end %>
+<%= yield %>
+<% if user_signed_in? %>
+    Logged in as <strong><%= current_user.email %></strong>.
+    <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+    <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+  <% else %>
+    <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
+    <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+  <% end %>
+<script>
+const productSchoolLat = "37.796465";
+const productSchoolLng = "-122.402492";
+
+$.ajax({
+  url: 'api/v1/weather',
+  type: 'GET',
+  data: { lat: productSchoolLat, lng: productSchoolLng } ,
+  contentType: 'application/json; charset=utf-8',
+  success: function (response) {
+    console.log(response);
+  },
+  error: function (error) {
+    console.log(error);
+  }
+});
+</script>
+</body>
+</html>
+<% end %>
